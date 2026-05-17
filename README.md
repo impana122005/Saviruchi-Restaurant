@@ -28,7 +28,7 @@ The website provides an interactive online food ordering experience with user au
 
 ## Demo Video
 
-"C:\Users\Impana\Downloads\demo.mp4"
+https://github.com/user-attachments/assests/"C:\Users\Impana\Downloads\demo.mp4"/demo.mp4
 
 
 
