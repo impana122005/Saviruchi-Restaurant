@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saviruchi Veg Restaurant</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link rel="icon" href="favicon.ico">
+
+</head>
+  
+<body>
+
+  <div class="login-container" id="login-page" style="display:flex;">
+
+    <div class="login-box">
+
+      <h1>SAVIRUCHI</h1>
+
+      <h2>Login</h2>
+
+      <div id="login-message" class="message-box error" style="display:none; margin-bottom:14px;"></div>
+
+      <input type="text"
+      id="username"
+      placeholder="Enter Username">
+
+      <div class="password-box">
+        <input type="password"
+        id="password"
+        placeholder="Enter Password">
+
+        <i class="fa-solid fa-eye"
+        onclick="togglePassword('password',this)">
+        </i>
+      </div>
+
+      <button onclick="loginUser()">
+
+        Login
+
+      </button>
+
+      <p onclick="showSignup()">
+
+        Sign Up
+
+      </p>
+
+      <p onclick="showForgot()">
+
+        Forgot Password?
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="login-container"
+  id="signup-page"
+  style="display:none;">
+
+    <div class="login-box">
+
+      <h2>Create Account</h2>
+
+      <input type="text"
+      id="signup-username"
+      placeholder="Enter Username">
+
+      <div class="password-box">
+        <input type="password"
+        id="signup-password"
+        placeholder="Create Password">
+
+        <i class="fa-solid fa-eye"
+        onclick="togglePassword('signup-password',this)">
+        </i>
+      </div>
+
+      <ul class="criteria-list" id="signup-password-criteria">
+        <li class="criteria-item" data-rule="length">Minimum 8 characters</li>
+        <li class="criteria-item" data-rule="uppercase">At least one uppercase letter</li>
+        <li class="criteria-item" data-rule="number">At least one number</li>
+        <li class="criteria-item" data-rule="special">At least one special character</li>
+      </ul>
+
+      <div id="signup-message" class="message-box error" style="display:none;"></div>
+
+      <button type="button" onclick="validatePassword()">
+
+        Sign Up
+
+      </button>
+
+      <p onclick="showLogin()">
+
+        Back to Login
+
+      </p>
+
+    </div>
+
+  </div>
+  
+  <div class="login-container"
+  id="forgot-page"
+  style="display:none;">
+
+    <div class="login-box">
+
+      <h2>Forgot Password</h2>
+
+      <input type="text"
+      id="forgot-username"
+      placeholder="Enter Username">
+
+      <div class="password-box">
+        <input type="password"
+        id="new-password"
+        placeholder="Enter New Password">
+
+        <i class="fa-solid fa-eye"
+        onclick="togglePassword('new-password',this)">
+        </i>
+      </div>
+
+      <ul class="criteria-list" id="new-password-criteria">
+        <li class="criteria-item" data-rule="length">Minimum 8 characters</li>
+        <li class="criteria-item" data-rule="uppercase">At least one uppercase letter</li>
+        <li class="criteria-item" data-rule="number">At least one number</li>
+        <li class="criteria-item" data-rule="special">At least one special character</li>
+      </ul>
+
+      <div id="forgot-message" class="message-box" style="display:none;"></div>
+
+      <button onclick="resetPassword()">
+
+        Reset Password
+
+      </button>
+
+      <p onclick="showLogin()">
+
+        Back to Login
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <div id="site-content" style="display:none;">
+
+  <!-- Navbar -->
+  <nav>
+    <h1>Saviruchi Veg Restaurant</h1>
+
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#reservation">Reserve</a></li>
+      <button id="logout-btn" onclick="logoutUser()">
+        Logout
+      </button>
+    </ul>
+  </nav>
+
+
+  <!-- CART SECTION -->
+<!-- CART ICON -->
+
+<a href="cart.html" class="cart-icon">
+
+  <i class="fa-solid fa-cart-shopping"></i>
+
+  <span id="cart-count">0</span>
+
+</a>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h2>Welcome to Saviruchi Veg Restaurant</h2>
+      <p>Pure Veg • Authentic Taste • Memorable Dining</p>
+    </div>
+  </section>
+
+  <!-- Search & Filter -->
+  <section class="search-section">
+
+    <input
+      type="text"
+      id="search"
+      placeholder="Search food..."
+    >
+
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="tiffin">Tiffin</option>
+      <option value="rice">Rice</option>
+      <option value="indian breads">Indian Breads</option>
+      <option value="meals">Meals</option>
+      <option value="gravy">Gravy</option>
+      <option value="combos">Combos</option>
+      <option value="chinese">Chinese</option>
+    </select>
+
+  </section>
+
+  <!-- MENU SECTION -->
+
+<section class="menu" id="menu">
+
+<!-- ================= TIFFIN ================= -->
+
+<h2 class="menu-heading">TIFFIN</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="tiffin">
+    <img src="images/masala-dosa.jpeg" alt="Masala Dosa">
+    <h3>Masala Dosa</h3>
+    <p>₹70</p>
+    <button onclick="addToCart('Masala Dosa', 70, 'images/masala-dosa.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/plain-dosa.jpeg" alt="Plain Dosa">
+    <h3>Plain Dosa</h3>
+    <p>₹65</p>
+    <button onclick="addToCart('Plain Dosa', 65, 'images/plain-dosa.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/Idli-vada.avif" alt="Idli Vada">
+    <h3>Idli Vada</h3>
+    <p>₹55</p>
+    <button onclick="addToCart('Idli Vada', 55, 'images/Idli-vada.avif')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/poori-sagu.jpeg" alt="Poori Sagu">
+    <h3>Poori Sagu</h3>
+    <p>₹65</p>
+    <button onclick="addToCart('Poori Sagu', 65, 'images/poori-sagu.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/pongal.jpeg" alt="Pongal">
+    <h3>Pongal</h3>
+    <p>₹60</p>
+    <button onclick="addToCart('Pongal', 60, 'images/pongal.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/chow-chow-bath.jpeg" alt="Chow Chow Bath">
+    <h3>Chow Chow Bath</h3>
+    <p>₹70</p>
+    <button onclick="addToCart('Chow Chow Bath', 70, 'images/chow-chow-bath.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/set-dosa.jpeg" alt="Set Dosa">
+    <h3>Set Dosa</h3>
+    <p>₹65</p>
+    <button onclick="addToCart('Set Dosa', 65, 'images/set-dosa.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/open-butter-dosa.jpeg" alt="Open Butter Dosa">
+    <h3>Open Butter Dosa</h3>
+    <p>₹90</p>
+    <button onclick="addToCart('Open Butter Dosa', 90, 'images/open-butter-dosa.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/uttapam.jpeg" alt="Uttapam">
+    <h3>Uttapam</h3>
+    <p>₹75</p>
+    <button onclick="addToCart('Uttapam', 75, 'images/uttapam.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/Bisibele-bath.jpeg" alt="Bisibele Bath">
+    <h3>Bisibele Bath</h3>
+    <p>₹80</p>
+    <button onclick="addToCart('Bisibele Bath', 80, 'images/Bisibele-bath.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="tiffin">
+    <img src="images/Thatte-idli.jpeg" alt="Thatte Idli">
+    <h3>Thatte Idli</h3>
+    <p>₹60</p>
+    <button onclick="addToCart('Thatte Idli', 60, 'images/Thatte-idli.jpeg')">Add to Cart</button>
+  </div>
+</div>
+
+<!-- ================= Rice ================= -->
+
+<h2 class="menu-heading">RICE</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="rice">
+    <img src="images/paneer-biryani.jpeg" alt="Paneer Biryani">
+    <h3>Paneer Biryani</h3>
+    <p>₹190</p>
+    <button onclick="addToCart('Paneer Biryani', 190, 'images/paneer-biryani.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="rice">
+    <img src="images/jeera-rice.jpeg" alt="Jeera Rice">
+    <h3>Jeera Rice</h3>
+    <p>₹130</p>
+    <button onclick="addToCart('Jeera Rice', 130, 'images/jeera-rice.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="rice">
+    <img src="images/curd-rice.jpeg" alt="Curd Rice">
+    <h3>Curd Rice</h3>
+    <p>₹90</p>
+    <button onclick="addToCart('Curd Rice', 90, 'images/curd-rice.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="rice">
+    <img src="images/lemon-rice.jpeg" alt="Lemon Rice">
+    <h3>Lemon Rice</h3>
+    <p>₹100</p>
+    <button onclick="addToCart('Lemon Rice', 100, 'images/lemon-rice.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="rice">
+    <img src="images/tomato-rice.jpeg" alt="Tomato Rice">
+    <h3>Tomato Rice</h3>
+    <p>₹110</p>
+    <button onclick="addToCart('Tomato Rice', 110, 'images/tomato-rice.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="rice">
+    <img src="images/veg-pulao.webp" alt="Veg Pulao">
+    <h3>Veg Pulao</h3>
+    <p>₹160</p>
+    <button onclick="addToCart('Veg Pulao', 160, 'images/veg-pulao.jpeg')">Add to Cart</button>
+  </div> 
+</div>
+
+  <!--========================Indian Breads=========================-->
+
+<h2 class="menu-heading">INDIAN BREADS</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="indian breads">
+    <img src="images/paratha.jpeg" alt="paratha">
+    <h3>Paratha</h3>
+    <p>₹80</p>
+    <button onclick="addToCart('Paratha', 80, 'images/paratha.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="indian breads">
+    <img src="images/butter-naan.jpeg" alt="Butter Naan">
+    <h3>Butter Naan</h3>
+    <p>₹70</p>
+    <button onclick="addToCart('Butter Naan', 70, 'images/butter-naan.jpeg')">Add to Cart</button>
+  </div>
+</div>
+
+
+<!-- ================= meals ================= -->
+
+<h2 class="menu-heading">MEALS</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="meals">
+    <img src="images/south-indian-meals.jpg" alt="South Indian Meals">
+    <h3>South Indian Meals</h3>
+    <p>₹140</p>
+    <button onclick="addToCart('South Indian Meals', 140, 'images/south-indian-meals.jpg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="meals">
+    <img src="images/North-indian-thali.jpeg" alt="North Indian Thali">
+    <h3>North Indian Thali</h3>
+    <p>₹180</p>
+    <button onclick="addToCart('North Indian Thali', 180, 'images/North-indian-thali.jpeg')">Add to Cart</button>
+  </div>
+</div>
+
+  <!--========================Gravy=========================-->
+
+<h2 class="menu-heading">Gravy</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="gravy">
+    <img src="images/paneer-butter-masala.jpeg" alt="Paneer Butter Masala">
+    <h3>Paneer Butter Masala</h3>
+    <p>₹170</p>
+    <button onclick="addToCart('Paneer Butter Masala', 170, 'images/paneer-butter-masala.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="gravy">
+    <img src="images/kadai-paneer.jpeg" alt="Kadai Paneer">
+    <h3>Kadai Paneer</h3>
+    <p>₹180</p>
+    <button onclick="addToCart('Kadai Paneer', 180, 'images/kadai-paneer.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="gravy">
+    <img src="images/palak-paneer.jpeg" alt="Palak Paneer">
+    <h3>Palak Paneer</h3>
+    <p>₹180</p>
+    <button onclick="addToCart('Palak Paneer', 180, 'images/palak-paneer.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="gravy">
+    <img src="images/mushroom-curry.jpeg" alt="Mushroom Curry">
+    <h3>Mushroom Curry</h3>
+    <p>₹170</p>
+    <button onclick="addToCart('Mushroom Curry', 170, 'images/mushroom-curry.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="gravy">
+    <img src="images/veg-korma.jpeg" alt="Veg Korma">
+    <h3>Veg Korma</h3>
+    <p>₹160</p>
+    <button onclick="addToCart('Veg Korma', 160, 'images/veg-korma.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="gravy">
+    <img src="images/rajma.jpeg" alt="Rajma">
+    <h3>Rajma</h3>
+    <p>₹150</p>
+    <button onclick="addToCart('Rajma', 150, 'images/rajma.jpeg')">Add to Cart</button>
+  </div>
+</div>
+  
+  <!--========================Combos=========================-->
+<h2 class="menu-heading">Combos</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="combos">
+    <img src="images/chapati-combo.jpeg" alt="Chapati Combo">
+    <h3>Chapati Combo</h3>
+    <p>₹100</p>
+    <button onclick="addToCart('Chapati Combo', 100, 'images/chapati-combo.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="combos">
+    <img src="images/paratha-combo.jpeg" alt="Paratha Combo">
+    <h3>Paratha Combo</h3>
+    <p>₹120</p>
+    <button onclick="addToCart('Paratha Combo', 120, 'images/paratha-combo.jpeg')">Add to Cart</button>
+  </div>
+</div>
+
+  <!--========================Chinese=========================-->
+<h2 class="menu-heading">Chinese</h2>
+
+<div class="menu-container">
+  <div class="food-card" data-category="chinese">
+    <img src="images/veg-noodles.jpeg" alt="Veg Noodles">
+    <h3>Veg Noodles</h3>
+    <p>₹80</p>
+    <button onclick="addToCart('Veg Noodles', 80, 'images/veg-noodles.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="chinese">
+    <img src="images/gobi-manchurian.jpeg" alt="Gobi Manchurian">
+    <h3>Gobi Manchurian</h3>
+    <p>₹70</p>
+    <button onclick="addToCart('Gobi Manchurian', 70, 'images/gobi-manchurian.jpeg')">Add to Cart</button>
+  </div>
+
+  <div class="food-card" data-category="chinese">
+    <img src="images/veg-fried-rice.jpeg" alt="Veg Fried Rice">
+    <h3>Veg Fried Rice</h3>
+    <p>₹150</p>
+    <button onclick="addToCart('Veg Fried Rice', 150, 'images/veg-fried-rice.jpeg')">Add to Cart</button>
+  </div>
+</div>
+</section>
+    
+<!-- Reservation -->
+  <section class="reservation" id="reservation">
+
+    <h2>Table Reservation</h2>
+
+    <form>
+
+      <input type="text" id="name" placeholder="Your Name" required>
+
+      <input type="email" id="email" placeholder="Enter your email" required>
+
+      <input type="date" id="date" required>
+
+      <input type="time" id="time" required>
+
+      <input type="number" id="guests" placeholder="Number of Guests" min="1" required>
+
+      <button type="button" onclick="reserveTable()">Reserve Table</button>
+
+    </form>
+
+    <div id="reservation-message" class="message-box" style="display:none"></div>
+
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews" id="reviews">
+
+    <h2>Customer Reviews</h2>
+
+    <div class="review-box">
+      <p>"Amazing food and great ambience!"</p>
+      <h4>- Priya</h4>
+      <div class="rating">
+        ★★★★★
+      </div>
+    </div>
+
+    <div class="review-box">
+      <p>"Best biryani in town."</p>
+      <h4>- Rahul</h4>
+      <div class="rating">
+        ★★★★☆
+      </div>
+    </div>
+
+    <div class="review-box">
+      <p>"Loved the dosa and desserts."</p>
+      <h4>- Sneha</h4>
+      <div class="rating">
+        ★★★★☆
+      </div>  
+    </div>
+
+  </section>
+
+  <!-- Menu Admin Panel -->
+  <section class="admin-panel">
+
+    <h2>Menu Admin Panel</h2>
+    <p class="admin-hint">Only the admin user can add and manage custom menu items. Added items are saved in browser storage.</p>
+
+    <input type="text" id="foodName" placeholder="Food Name" alt="Food Name">
+
+    <input type="text" id="foodPrice" placeholder="Price" alt="Price">
+
+    <select id="foodCategory" alt="Food Category">
+      <option value="tiffin">Tiffin</option>
+      <option value="rice">Rice</option>
+      <option value="indian breads">Indian Breads</option>
+      <option value="meals">Meals</option>
+      <option value="gravy">Gravy</option>
+      <option value="combos">Combos</option>
+      <option value="chinese">Chinese</option>
+    </select>
+
+    <button onclick="addFoodItem()">
+      Add Menu Item
+    </button>
+
+  </section>
+
+  <div id="cart-message">
+    Item Added to Cart
+  </div>
+
+  <div id="message-box" class="message-box" style="display:none"></div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Saviruchi Veg Restaurant</p>
+  </footer>
+
+  <script defer src="script.js?v=2"></script>
+
+</body>
+</html>

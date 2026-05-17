@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <title>Cart - SAVIRUCHI</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+  <div class="cart-page">
+
+    <button class="back-btn" onclick="goHome()">← Back</button>
+
+    <h1>Your Cart</h1>
+
+    <div id="cart-message" class="message-box"></div>
+
+    <div id="cart-items"></div>
+
+    <h2 id="total-price"></h2>
+
+    <button id="order-btn"
+  onclick="showOrderSection()">
+
+    Order Now
+
+  </button>
+
+  <div id="order-section"
+  style="display:none;">
+
+    <h2>Select Payment Method</h2>
+
+    <label>
+
+      <input type="radio"
+      name="payment"
+      value="PhonePe">
+
+      PhonePe
+
+    </label>
+
+    <br><br>
+
+    <label>
+
+      <input type="radio"
+      name="payment"
+      value="Cash on Delivery">
+
+      Cash on Delivery
+
+    </label>
+
+    <br><br>
+
+    <h3>Delivery Address</h3>
+
+    <textarea
+    id="address"
+    placeholder="Enter Delivery Address">
+    </textarea>
+
+    <br><br>
+
+      <button onclick="confirmOrder()">
+
+      Confirm Order
+
+    </button>
+
+  </div>
+
+  <script>
+
+  let cartItems =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+  const cartContainer =
+  document.getElementById("cart-items");
+  const cartMessage = document.getElementById("cart-message");
+
+  function showCartMessage(message, type = "info"){
+    cartMessage.textContent = message;
+    cartMessage.className = "message-box " + type;
+    cartMessage.style.display = "block";
+    setTimeout(() => {
+      cartMessage.style.display = "none";
+    }, 5000);
+  }
+
+  function displayCart(){
+
+  let cartItems =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+  const cartContainer =
+  document.getElementById("cart-items");
+
+  const totalPrice =
+  document.getElementById("total-price");
+
+  cartContainer.innerHTML = "";
+
+  let total = 0;
+
+
+  if(cartItems.length === 0){
+
+    cartContainer.innerHTML =
+    "<h2>Your Cart is Empty</h2>";
+
+    totalPrice.innerHTML = "";
+
+    // hide order controls when cart is empty
+    const orderBtn = document.getElementById("order-btn");
+    if(orderBtn) orderBtn.style.display = 'none';
+    const orderSec = document.getElementById("order-section");
+    if(orderSec) orderSec.style.display = 'none';
+
+    return;
+
+  }
+  cartItems.forEach((item,index)=>{
+
+    total += item.price * item.quantity;
+
+    cartContainer.innerHTML += `
+
+      <div class="cart-item">
+
+        <img src="${item.image}" width="120">
+
+        <div class="cart-details">
+
+          <h3>${item.name}</h3>
+
+          <p class="item-price">₹${item.price * item.quantity}</p>
+
+          <div class="quantity-controls">
+
+          <button onclick="decreaseQuantity(${index})">
+            -
+          </button>
+
+          <span>${item.quantity}</span>
+
+          <button onclick="increaseQuantity(${index})">
+            +
+          </button>
+
+        </div>
+
+<button class="remove-btn" onclick="removeItem(${index})">
+          Remove
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+
+  totalPrice.innerHTML =
+  "Total: ₹" + total;
+
+  if(cartItems.length === 0){
+
+  document.getElementById("order-btn").style.display = "none";
+
+  document.getElementById("order-section").style.display = "none";
+
+}
+else{
+
+  document.getElementById("order-btn").style.display = "block";
+
+}
+
+}
+
+  function removeItem(index){
+
+    cartItems.splice(index,1);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cartItems)
+    );
+
+    displayCart();
+
+  }
+  function showCheckout(){
+
+  document.getElementById(
+    "checkout-section"
+  ).style.display = "block";
+
+}
+
+function confirmOrder(){
+
+  let cartItems =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+
+  if(cartItems.length === 0){
+
+    showCartMessage("Your cart is empty.", "error");
+
+    return;
+
+  }
+
+  const payment =
+  document.querySelector(
+    'input[name="payment"]:checked'
+  );
+
+  const address =
+  document.getElementById("address").value;
+
+  if(!payment){
+    showCartMessage("Please select a payment method.", "error");
+    return;
+  }
+
+  if(address.trim() === ""){
+
+    showCartMessage("Please enter delivery address.", "error");
+
+    return;
+
+  }
+
+  showCartMessage(
+    "Order confirmed! Payment: " + payment.value + ". Delivery address saved.",
+    "error"
+  );
+
+  // CLEAR CART
+  localStorage.removeItem("cart");
+  cartItems = [];
+  displayCart();
+
+  if(typeof updateCartCount === 'function'){
+    updateCartCount();
+  }
+
+}
+
+function increaseQuantity(index){
+
+  cartItems[index].quantity++;
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cartItems)
+  );
+
+  displayCart();
+
+}
+
+function decreaseQuantity(index){
+
+  if(cartItems[index].quantity > 1){
+
+    cartItems[index].quantity--;
+
+  }
+
+  else{
+
+    cartItems.splice(index,1);
+
+  }
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cartItems)
+  );
+
+  displayCart();
+
+}
+function showOrderSection(){
+
+  if(cartItems.length === 0){
+
+    showCartMessage("Your cart is empty.", "error");
+
+    return;
+
+  }
+
+  document.getElementById(
+    "order-section"
+  ).style.display = "block";
+
+      document.getElementById(
+    "order-btn"
+  ).style.display = "none";
+
+}
+
+function isReloaded(){
+  const perf = window.performance;
+  if(perf && typeof perf.getEntriesByType === 'function'){
+    const navEntries = perf.getEntriesByType('navigation');
+    if(navEntries.length) return navEntries[0].type === 'reload';
+  }
+  return perf && perf.navigation ? perf.navigation.type === 1 : false;
+}
+
+  function goHome(){
+    window.location.replace('index.html#home');
+  }
+
+document.addEventListener("DOMContentLoaded", function(){
+  if(isReloaded()){
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+    return;
+  }
+  if(sessionStorage.getItem("isLoggedIn") !== "true"){
+    window.location.href = "index.html";
+    return;
+  }
+  displayCart();
+});
+
+</script>
+
+</body>
+
+</html>
